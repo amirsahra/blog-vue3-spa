@@ -1,5 +1,7 @@
 <template>
-  <h1> hi </h1>
+  <div class="alert alert-primary" role="alert">
+    A simple primary alert—check it out!
+  </div>
   <router-view></router-view>
 </template>
 
