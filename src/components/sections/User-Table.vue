@@ -14,7 +14,7 @@
       <tbody>
       <tr v-for="user in userList" :key="user.id">
         <td v-text="user.id"></td>
-        <td v-text="user.name"></td>
+        <td><router-link :to="{ name : 'userId' , params: { id: user.id } }">{{ user.name }}</router-link></td>
         <td v-text="user.username"></td>
         <td v-text="user.email"></td>
         <td v-text="user.phone"></td>
