@@ -4,7 +4,8 @@
       <div class="col p-4 d-flex flex-column position-static">
         <h3 class="mb-0">{{ post.title }}</h3>
         <div class="mb-1 text-muted">{{ date }}</div>
-        <a href="#" class="stretched-link">Continue reading</a>
+        <router-link class="stretched-link" :to="{ name : 'postId' , params: { id: post.id } }">Continue reading</router-link>
+
       </div>
       <div class="col-auto d-none d-lg-block">
         <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img"
