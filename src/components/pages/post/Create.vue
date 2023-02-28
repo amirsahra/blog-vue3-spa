@@ -13,7 +13,7 @@
           <div class="form-text text-danger">{{ form.bodyInputError }}</div>
 
         </div>
-        <button type="submit" class="btn btn-outline-success mb-3">
+        <button type="submit" class="btn btn-outline-success mb-3" :disabled="loading">
           Insert
           <div v-if="loading" class="spinner-border text-warning spinner-border-sm" role="status"></div>
         </button>
