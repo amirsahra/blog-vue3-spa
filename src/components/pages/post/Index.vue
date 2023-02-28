@@ -1,6 +1,12 @@
 <template>
   <div class="container top">
     <div class="row g-3 p-5">
+      <div class="card feat-post">
+        <div class="card-body">
+          <router-link to="/posts/create" class="btn btn-outline-success">Insert new post</router-link>
+        </div>
+      </div>
+
       <post-feature v-for="post in postList" :post="post" class="col-lg-6 feat-post"/>
     </div>
   </div>
