@@ -1,30 +1,28 @@
 <template>
-  <div >
-    <h2 class="p-3">Users list</h2>
-    <div v-if="loading" class="spinner-border m-5" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <div class="container top">
+    <div class="row g-3 p-5">
+      <post-feature v-for="post in postList" :post="post" class="col-lg-6 feat-post"/>
     </div>
-    <UserTable v-else :userList="userList"/>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import UserTable from "@/components/sections/User-Table";
+import PostFeature from "@/components/sections/Post-Feature";
 import {ref} from "vue";
+import axios from "axios";
 
 export default {
-  name: "Users",
-  components: {UserTable},
+  name: "Index",
+  components: {PostFeature},
   setup() {
-    const userList = ref([]);
+    const postList = ref({});
     const loading = ref(true)
 
     function getUsers() {
-      axios.get('https://jsonplaceholder.typicode.com/users')
+      axios.get('https://jsonplaceholder.typicode.com/posts')
           .then(function (response) {
             // handle success
-            userList.value = response.data;
+            postList.value = response.data;
             loading.value = false;
           })
           .catch(function (error) {
@@ -37,7 +35,7 @@ export default {
     }
 
     getUsers();
-    return {userList,loading};
+    return {postList, loading};
   }
 }
 </script>

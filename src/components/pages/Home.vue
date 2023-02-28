@@ -1,5 +1,5 @@
 <template>
-  <div class="container top">
+  <div>
     <long-post/>
     <div class="row g-5">
       <div class="col-md-8">
@@ -8,10 +8,7 @@
           Lasted Posts
         </h3>
         <div class="row">
-            <post-feature class="col-lg-5 feat-post"/>
-            <post-feature class="col-lg-5 feat-post"/>
-            <post-feature class="col-lg-5 feat-post"/>
-            <post-feature class="col-lg-5 feat-post"/>
+            <post-feature v-for="post in postList" :post="post" class="col-lg-12 feat-post"/>
         </div>
       </div>
 
@@ -55,9 +52,37 @@
 import LongPost from "@/components/sections/Post-Long";
 import PostFeature from "@/components/sections/Post-Feature";
 import AboutCard from "@/components/sections/About-Card";
+import {ref} from "vue";
+import {useRoute} from "vue-router/dist/vue-router";
+import axios from "axios";
 export default {
   name: "Home",
-  components: {AboutCard, PostFeature, LongPost}
+  components: {AboutCard, PostFeature, LongPost},
+
+  setup() {
+    const postList = ref({});
+    const loading = ref(true);
+    const route = useRoute();
+
+    function getPost() {
+      axios.get('https://jsonplaceholder.typicode.com/posts')
+          .then(function (response) {
+            // handle success
+            postList.value = response.data;
+            loading.value = false;
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+    }
+
+    getPost();
+    return {postList, loading, route}
+  }
 }
 </script>
 

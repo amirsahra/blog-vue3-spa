@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-3">
+  <div>
     <div class="col-md-12">
       {{ user }}
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
