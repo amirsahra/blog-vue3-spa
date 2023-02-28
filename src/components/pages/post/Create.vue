@@ -26,6 +26,7 @@
 <script>
 import {reactive, ref} from "vue";
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 export default {
   name: "Create",
@@ -42,12 +43,17 @@ export default {
       axios.post('https://jsonplaceholder.typicode.com/posts', {
         'title': form.title, body: form.body, userId: 1
       })
-          .then(function (response) {
-            console.log(response.data)
+          .then(function () {
             loading.value = false
+            Swal.fire({
+              title: 'Thanks !',
+              text: 'Created successfully',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            })
           })
           .catch(function (error) {
-
+            console.log(error)
           })
           .finally(function () {
 
