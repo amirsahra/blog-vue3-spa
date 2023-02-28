@@ -1,61 +1,80 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <form>
-        <div class="row mb-3">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail3">
-          </div>
+      <form @submit.prevent="validate">
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">Title</label>
+          <input type="text" v-model.lazy.trim="form.title" class="form-control" id="inputTitle">
+          <div class="form-text text-danger">{{ form.titleInputError }}</div>
         </div>
-        <div class="row mb-3">
-          <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-          <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword3">
-          </div>
+        <div class="mb-3">
+          <label for="inputBody" class="form-label">Body</label>
+          <textarea class="form-control" v-model.lazy="form.body" id="inputBody" rows="5"></textarea>
+          <div class="form-text text-danger">{{ form.bodyInputError }}</div>
+
         </div>
-        <fieldset class="row mb-3">
-          <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-          <div class="col-sm-10">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-              <label class="form-check-label" for="gridRadios1">
-                First radio
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-              <label class="form-check-label" for="gridRadios2">
-                Second radio
-              </label>
-            </div>
-            <div class="form-check disabled">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-              <label class="form-check-label" for="gridRadios3">
-                Third disabled radio
-              </label>
-            </div>
-          </div>
-        </fieldset>
-        <div class="row mb-3">
-          <div class="col-sm-10 offset-sm-2">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="gridCheck1">
-              <label class="form-check-label" for="gridCheck1">
-                Example checkbox
-              </label>
-            </div>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button type="submit" class="btn btn-outline-success mb-3">
+          Insert
+          <div v-if="loading" class="spinner-border text-warning spinner-border-sm" role="status"></div>
+        </button>
+
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import {reactive, ref} from "vue";
+import axios from "axios";
+
 export default {
-  name: "Create"
+  name: "Create",
+  setup() {
+    const loading = ref(false);
+    const form = reactive({
+      title: "",
+      body: "",
+      titleInputError: "",
+      bodyInputError: "",
+    });
+
+    function createPost() {
+      axios.post('https://jsonplaceholder.typicode.com/posts', {
+        'title': form.title, body: form.body, userId: 1
+      })
+          .then(function (response) {
+            console.log(response.data)
+            loading.value = false
+          })
+          .catch(function (error) {
+
+          })
+          .finally(function () {
+
+          });
+    }
+
+    function validate() {
+      if (form.title === "") {
+        form.titleInputError = "Title is required."
+      } else {
+        form.titleInputError = ""
+      }
+
+      if (form.body === "") {
+        form.bodyInputError = "Body is required."
+      } else {
+        form.bodyInputError = ""
+      }
+
+      if (form.title !== "" && form.body !== "") {
+        loading.value = true
+        createPost();
+      }
+    }
+
+    return {form, validate,loading};
+  },
 }
 </script>
 
